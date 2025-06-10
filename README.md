@@ -1,4 +1,4 @@
 # 01-ThoroughRefactoringMySolution
 
-## License
-[GNU](https://intwist.carrd.co/)
+## Link
+[my site](https://intwist.carrd.co/)

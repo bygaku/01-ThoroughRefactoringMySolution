@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d152472c-f3b0-4cec-a0c4-c0c777cd7a46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\System">
+      <UniqueIdentifier>{2d62d072-3b92-4565-a201-749053855167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core">
+      <UniqueIdentifier>{40ae3667-ff0a-4b0f-af34-f96d27aa92bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utility">
+      <UniqueIdentifier>{8879f30e-facc-4ac8-a7b6-5b728bdd39c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utility\Data">
+      <UniqueIdentifier>{0ee1ec2c-99d6-446a-b77c-f5314ee91d69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utility\Assert">
+      <UniqueIdentifier>{06e6d24a-7d21-4d48-833f-4900d978c4db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utility\Math">
+      <UniqueIdentifier>{3b840bfc-7873-48d8-9596-cd01d8232377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object">
+      <UniqueIdentifier>{3d76db9e-280a-4b40-a0f7-64844b8c0df3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Data">
+      <UniqueIdentifier>{7318477a-51ac-411e-8ff3-d3ad3b187206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\GameManager">
+      <UniqueIdentifier>{be2c397a-bca2-4ef8-896b-d04f2b1ce845}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Input">
+      <UniqueIdentifier>{58ee9f4c-fce2-4767-aa55-b6890c9abd2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Input\Data">
+      <UniqueIdentifier>{310b5873-dec4-4722-8dd0-21d05a7bb103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Component">
+      <UniqueIdentifier>{327f68d5-79c5-43f5-8399-a962e1aa39cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Component\Base">
+      <UniqueIdentifier>{82fd09c1-d5fb-45a6-9672-c006978b4e92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\GameTime">
+      <UniqueIdentifier>{07f7a910-d0a9-4419-9a31-dec65765c8cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Scene">
+      <UniqueIdentifier>{f4218e1f-fb4b-4ee9-b50a-f5e2930e8f87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Scene\Base">
+      <UniqueIdentifier>{c86d1b4b-63ed-4ea8-bb5e-3753f1dc1de0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Scene\Data">
+      <UniqueIdentifier>{7282bc92-4130-4a62-a32f-45b4c8ef28e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Scene\Manager">
+      <UniqueIdentifier>{0b47222c-fc29-41bf-ab3f-bbe0d480020b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\system\main.cpp">
+      <Filter>src\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\system.cpp">
+      <Filter>src\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\assert_dxlib.cpp">
+      <Filter>src\Utility\Assert</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\Math\math.cpp">
+      <Filter>src\Utility\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\game_object.cpp">
+      <Filter>src\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Component\health.cpp">
+      <Filter>src\Core\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Component\modeler.cpp">
+      <Filter>src\Core\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Component\transform.cpp">
+      <Filter>src\Core\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Component\component.cpp">
+      <Filter>src\Core\Component\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\GameManager\game_manager.cpp">
+      <Filter>src\Core\GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\GameTime\game_time.cpp">
+      <Filter>src\Core\GameTime</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Scene\scene.cpp">
+      <Filter>src\Core\Scene\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\SceneManager\scene_manager.cpp">
+      <Filter>src\Core\Scene\Manager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\system\system.hpp">
+      <Filter>src\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\Data\color_data.hpp">
+      <Filter>src\Utility\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\Data\screen_data.hpp">
+      <Filter>src\Utility\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\utility_link.hpp">
+      <Filter>src\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\assert_dxlib.hpp">
+      <Filter>src\Utility\Assert</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\Math\math.hpp">
+      <Filter>src\Utility\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\Math\quaternion.hpp">
+      <Filter>src\Utility\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\Math\vector2d.hpp">
+      <Filter>src\Utility\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\game_object.hpp">
+      <Filter>src\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Data\object_tag.hpp">
+      <Filter>src\Object\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Component\health.hpp">
+      <Filter>src\Core\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Component\modeler.hpp">
+      <Filter>src\Core\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Component\transform.hpp">
+      <Filter>src\Core\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Component\component.hpp">
+      <Filter>src\Core\Component\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\GameManager\game_manager.hpp">
+      <Filter>src\Core\GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\GameTime\game_time.hpp">
+      <Filter>src\Core\GameTime</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Scene\scene.hpp">
+      <Filter>src\Core\Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Scene\Data\scene_type.hpp">
+      <Filter>src\Core\Scene\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\SceneManager\scene_manager.hpp">
+      <Filter>src\Core\Scene\Manager</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

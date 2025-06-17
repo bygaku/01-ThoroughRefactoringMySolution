@@ -34,9 +34,9 @@
 //	void setScale   (const float&  uniform ) noexcept;
 //
 //private:
-//	VECTOR localPosition_;
-//	VECTOR localRotation_;
-//	VECTOR localScale_;
+//	VECTOR local_position_;
+//	VECTOR local_rotation_;
+//	VECTOR local_scale_;
 //	VECTOR eulerAngles_;
 //
 //	MATRIX localMatrix_;
@@ -49,40 +49,40 @@ class Transform final : public Component
 {
 private:
     // ローカル座標系
-    VECTOR     localPosition_;
-    Quaternion localRotation_;
-    VECTOR     localScale_;
+    VECTOR     local_position_;
+    Quaternion local_rotation_;
+    VECTOR     local_scale_;
 
-    VECTOR     worldPosition_;
-    Quaternion worldRotation_;
-    VECTOR     worldScale_;
-    MATRIX     worldMatrix_;
-    bool       isDirty_;
+    VECTOR     world_position_;
+    Quaternion world_rotation_;
+    VECTOR     world_scale_;
+    MATRIX     world_matrix_;
+    bool       is_dirty_;
 
     // 親子関係
     Transform* parent_;
     std::vector<Transform*> children_;
 
 public:
-    explicit Transform(GameObject& object) noexcept
+    Transform(GameObject& object) noexcept
         : Component(object)
-        , localPosition_(VGet(0.0f, 0.0f, 0.0f))
-        , localRotation_(Quaternion::Identity())
-        , localScale_(VGet(1.0f, 1.0f, 1.0f))
-        , worldPosition_(VGet(0.0f, 0.0f, 0.0f))
-        , worldRotation_(Quaternion::Identity())
-        , worldScale_(VGet(1.0f, 1.0f, 1.0f))
-        , isDirty_(true)
+        , local_position_(VGet(0.0f, 0.0f, 0.0f))
+        , local_rotation_(Quaternion::Identity())
+        , local_scale_(VGet(1.0f, 1.0f, 1.0f))
+        , world_position_(VGet(0.0f, 0.0f, 0.0f))
+        , world_rotation_(Quaternion::Identity())
+        , world_scale_(VGet(1.0f, 1.0f, 1.0f))
+        , is_dirty_(true)
         , parent_(nullptr)
     {
-        worldMatrix_ = MGetIdent();
+        world_matrix_ = MGetIdent();
     }
 
-    virtual ~Transform() noexcept override
+    ~Transform() noexcept override
     {
         // 親から自分を削除
         if (parent_) {
-            parent_->removeChild(this);
+            parent_->RemoveChild(this);
         }
 
         // 子供たちの親をnullに設定
@@ -93,9 +93,9 @@ public:
         }
     }
 
-    virtual void Initialize() noexcept override
+    void Initialize() noexcept override
     {
-        isDirty_ = true;
+        is_dirty_ = true;
     }
 
     // ==================================================
@@ -103,52 +103,52 @@ public:
     // ==================================================
 
     // ローカル位置
-    const VECTOR& getLocalPosition() const { return localPosition_; }
-    void setLocalPosition(const VECTOR& pos)
+    const VECTOR& GetLocalPosition() const { return local_position_; }
+    void SetLocalPosition(const VECTOR& pos)
     {
-        localPosition_ = pos;
-        markDirty();
+        local_position_ = pos;
+        MarkDirty();
     }
-    void setLocalPosition(float x, float y, float z)
+    void SetLocalPosition(float x, float y, float z)
     {
-        localPosition_ = VGet(x, y, z);
-        markDirty();
+        local_position_ = VGet(x, y, z);
+        MarkDirty();
     }
 
     // ローカル回転
-    const Quaternion& getLocalRotation() const { return localRotation_; }
-    void setLocalRotation(const Quaternion& rot)
+    const Quaternion& GetLocalRotation() const { return local_rotation_; }
+    void SetLocalRotation(const Quaternion& rot)
     {
-        localRotation_ = rot.Normalized();
-        markDirty();
+        local_rotation_ = rot.Normalized();
+        MarkDirty();
     }
-    void setLocalRotationEuler(const VECTOR& euler)
+    void SetLocalRotationEuler(const VECTOR& euler)
     {
-        localRotation_ = Quaternion::FromEulerRadians(euler.x, euler.y, euler.z);
-        markDirty();
+        local_rotation_ = Quaternion::FromEulerRadians(euler.x, euler.y, euler.z);
+        MarkDirty();
     }
-    void setLocalRotationEuler(float x, float y, float z)
+    void SetLocalRotationEuler(float x, float y, float z)
     {
-        localRotation_ = Quaternion::FromEulerRadians(x, y, z);
-        markDirty();
+        local_rotation_ = Quaternion::FromEulerRadians(x, y, z);
+        MarkDirty();
     }
 
     // ローカルスケール
-    const VECTOR& getLocalScale() const { return localScale_; }
-    void setLocalScale(const VECTOR& scale)
+    const VECTOR& GetLocalScale() const { return local_scale_; }
+    void SetLocalScale(const VECTOR& scale)
     {
-        localScale_ = scale;
-        markDirty();
+        local_scale_ = scale;
+        MarkDirty();
     }
-    void setLocalScale(float x, float y, float z)
+    void SetLocalScale(float x, float y, float z)
     {
-        localScale_ = VGet(x, y, z);
-        markDirty();
+        local_scale_ = VGet(x, y, z);
+        MarkDirty();
     }
-    void setLocalScale(float uniScale)
+    void SetLocalScale(float uniScale)
     {
-        localScale_ = VGet(uniScale, uniScale, uniScale);
-        markDirty();
+        local_scale_ = VGet(uniScale, uniScale, uniScale);
+        MarkDirty();
     }
 
     // ==================================================
@@ -156,234 +156,241 @@ public:
     // ==================================================
 
     // ワールド座標系を強制的に更新
-    void updateWorldTransform()
+    void UpdateWorldTransform()
     {
-        if (!isDirty_) return;
+        if (!is_dirty_) return;
 
         if (parent_) {
-            parent_->updateWorldTransform();
+            parent_->UpdateWorldTransform();
 
             // 親のワールド変換を適用
-            worldPosition_ = parent_->getWorldPosition();
-            worldRotation_ = parent_->getWorldRotation();
-            worldScale_    = parent_->getWorldScale();
+            world_position_ = parent_->GetWorldPosition();
+            world_rotation_ = parent_->GetWorldRotation();
+            world_scale_    = parent_->GetWorldScale();
 
             // ローカル変換を適用
             VECTOR scaledPos = VGet(
-                localPosition_.x * worldScale_.x,
-                localPosition_.y * worldScale_.y,
-                localPosition_.z * worldScale_.z
+                local_position_.x * world_scale_.x,
+                local_position_.y * world_scale_.y,
+                local_position_.z * world_scale_.z
             );
-            VECTOR rotatedPos = worldRotation_.rotateVector(scaledPos);
-            worldPosition_ = VAdd(worldPosition_, rotatedPos);
 
-            worldRotation_ = worldRotation_ * localRotation_;
+            VECTOR rotatedPos = world_rotation_.RotateVector(scaledPos);
 
-            worldScale_ = VGet(
-                worldScale_.x * localScale_.x,
-                worldScale_.y * localScale_.y,
-                worldScale_.z * localScale_.z
+            world_position_   = VAdd(world_position_, rotatedPos);
+            world_rotation_   = world_rotation_ * local_rotation_;
+            world_scale_      = VGet(
+                world_scale_.x * local_scale_.x,
+                world_scale_.y * local_scale_.y,
+                world_scale_.z * local_scale_.z
             );
         }
         else {
             // 親がいない場合はローカルがワールド
-            worldPosition_ = localPosition_;
-            worldRotation_ = localRotation_;
-            worldScale_    = localScale_;
+            world_position_ = local_position_;
+            world_rotation_ = local_rotation_;
+            world_scale_    = local_scale_;
         }
 
         // ワールド行列を更新
-        MATRIX scaleMatrix = MGetScale(worldScale_);
-        MATRIX rotMatrix   = worldRotation_.toMatrix();
-        MATRIX transMatrix = MGetTranslate(worldPosition_);
+        MATRIX scaleMatrix = MGetScale(world_scale_);
+        MATRIX rotMatrix   = world_rotation_.ToMatrix();
+        MATRIX transMatrix = MGetTranslate(world_position_);
 
-        worldMatrix_ = MMult(scaleMatrix, MMult(rotMatrix, transMatrix));
+        world_matrix_ = MMult(scaleMatrix, MMult(rotMatrix, transMatrix));
 
-        isDirty_ = false;
+        is_dirty_ = false;
     }
 
-    const VECTOR& getWorldPosition()
+    const VECTOR& GetWorldPosition()
     {
-        updateWorldTransform();
-        return worldPosition_;
+        UpdateWorldTransform();
+        return world_position_;
     }
 
-    const Quaternion& getWorldRotation()
+    const Quaternion& GetWorldRotation()
     {
-        updateWorldTransform();
-        return worldRotation_;
+        UpdateWorldTransform();
+        return world_rotation_;
     }
 
-    const VECTOR& getWorldScale()
+    const VECTOR& GetWorldScale()
     {
-        updateWorldTransform();
-        return worldScale_;
+        UpdateWorldTransform();
+        return world_scale_;
     }
 
-    void setWorldPosition(const VECTOR& pos)
+    void SetWorldPosition(const VECTOR& pos)
     {
         if (parent_) {
-            updateWorldTransform();
-            VECTOR     parentPos    = parent_->getWorldPosition();
-            Quaternion parentRotInv = parent_->getWorldRotation().inverse();
-            VECTOR     parentScale  = parent_->getWorldScale();
+            UpdateWorldTransform();
+
+            VECTOR     parentPos    = parent_->GetWorldPosition();
+            Quaternion parentRotInv = parent_->GetWorldRotation().Inverse();
+            VECTOR     parentScale  = parent_->GetWorldScale();
 
             VECTOR localPos = VSub(pos, parentPos);
-            localPos = parentRotInv.rotateVector(localPos);
-            localPos = VGet(
-                localPos.x / parentScale.x,
-                localPos.y / parentScale.y,
-                localPos.z / parentScale.z
+            localPos        = parentRotInv.RotateVector(localPos);
+            localPos        = VGet(
+                              localPos.x / parentScale.x,
+                              localPos.y / parentScale.y,
+                              localPos.z / parentScale.z
             );
 
-            localPosition_ = localPos;
+            local_position_ = localPos;
         }
         else {
-            localPosition_ = pos;
+            local_position_ = pos;
         }
-        markDirty();
+
+        MarkDirty();
     }
 
-    void setWorldRotation(const Quaternion& rot)
+    void SetWorldRotation(const Quaternion& rot)
     {
         if (parent_) {
-            updateWorldTransform();
-            Quaternion parentRotInv = parent_->getWorldRotation().inverse();
-            localRotation_          = parentRotInv * rot;
+            UpdateWorldTransform();
+
+            Quaternion parentRotInv = parent_->GetWorldRotation().Inverse();
+            local_rotation_         = parentRotInv * rot;
         }
         else {
-            localRotation_          = rot;
+            local_rotation_ = rot;
         }
-        markDirty();
+
+        MarkDirty();
     }
 
     // ==================================================
     // 移動・回転操作
     // ==================================================
 
-    void translate(const VECTOR& translation, bool worldSpace = false)
+    void Translate(const VECTOR& translation, bool worldSpace = false)
     {
         if (worldSpace) {
-            localPosition_ = VAdd(localPosition_, translation);
+            local_position_ = VAdd(local_position_, translation);
         }
         else {
-            VECTOR localTranslation = localRotation_.rotateVector(translation);
-            localPosition_          = VAdd(localPosition_, localTranslation);
+            VECTOR localTranslation = local_rotation_.RotateVector(translation);
+            local_position_         = VAdd(local_position_, localTranslation);
         }
-        markDirty();
+
+        MarkDirty();
     }
 
-    void rotate(const Quaternion& rotation, bool worldSpace = false)
+    void Rotate(const Quaternion& rotation, bool worldSpace = false)
     {
         if (worldSpace) {
-            localRotation_ = rotation * localRotation_;
+            local_rotation_ = rotation * local_rotation_;
         }
         else {
-            localRotation_ = localRotation_ * rotation;
+            local_rotation_ = local_rotation_ * rotation;
         }
 
-        localRotation_.normalize();
-        markDirty();
+        local_rotation_.Normalize();
+
+        MarkDirty();
     }
 
     void rotateEuler(const VECTOR& eulerAngles, bool worldSpace = false)
     {
-        Quaternion rotation = Quaternion::fromEulerRadians(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-        rotate(rotation, worldSpace);
+        Quaternion rotation = Quaternion::FromEulerRadians(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+        Rotate(rotation, worldSpace);
     }
 
     void lookAt(const VECTOR& target, const VECTOR& up = VGet(0.0f, 1.0f, 0.0f))
     {
-        VECTOR worldPos = getWorldPosition();
+        VECTOR worldPos = GetWorldPosition();
         VECTOR forward  = VNorm(VSub(target, worldPos));
 
-        Quaternion lookRotation = Quaternion::fromToRotation(VGet(0.0f, 0.0f, 1.0f), forward);
-        setWorldRotation(lookRotation);
+        Quaternion lookRotation = Quaternion::FromToRotation(VGet(0.0f, 0.0f, 1.0f), forward);
+        SetWorldRotation(lookRotation);
     }
 
     // ==================================================
     // 方向ベクトル
     // ==================================================
 
-    VECTOR getForward()
+    VECTOR GetForward()
     {
-        return getWorldRotation().rotateVector(VGet(0.0f, 0.0f, 1.0f));
+        return GetWorldRotation().RotateVector(VGet(0.0f, 0.0f, 1.0f));
     }
 
-    VECTOR getRight()
+    VECTOR GetRight()
     {
-        return getWorldRotation().rotateVector(VGet(1.0f, 0.0f, 0.0f));
+        return GetWorldRotation().RotateVector(VGet(1.0f, 0.0f, 0.0f));
     }
 
-    VECTOR getUp()
+    VECTOR GetUp()
     {
-        return getWorldRotation().rotateVector(VGet(0.0f, 1.0f, 0.0f));
+        return GetWorldRotation().RotateVector(VGet(0.0f, 1.0f, 0.0f));
     }
 
     // ==================================================
     // 親子関係
     // ==================================================
 
-    Transform* getParent() const { return parent_; }
+    Transform* GetParent() const { return parent_; }
 
-    void setParent(Transform* newParent)
+    void SetParent(Transform* newParent)
     {
         if (parent_ == newParent) return;
 
         // 古い親から削除
         if (parent_) {
-            parent_->removeChild(this);
+            parent_->RemoveChild(this);
         }
 
         // 新しい親に追加
         parent_ = newParent;
         if (parent_) {
-            parent_->addChild(this);
+            parent_->AddChild(this);
         }
 
-        markDirty();
+        MarkDirty();
     }
 
-    const std::vector<Transform*>& getChildren() const { return children_; }
+    const std::vector<Transform*>& GetChildren() const { return children_; }
 
-    Transform* getChild(size_t index) const
+    Transform* GetChild(size_t index) const
     {
         if (index < children_.size()) {
             return children_[index];
         }
+
         return nullptr;
     }
 
-    size_t getChildCount() const { return children_.size(); }
+    size_t GetChildCount() const { return children_.size(); }
 
     // ==================================================
     // 行列取得
     // ==================================================
 
-    const MATRIX& getWorldMatrix()
+    const MATRIX& GetWorldMatrix()
     {
-        updateWorldTransform();
-        return worldMatrix_;
+        UpdateWorldTransform();
+        return world_matrix_;
     }
 
-    MATRIX getLocalMatrix() const
+    MATRIX GetLocalMatrix() const
     {
-        MATRIX scaleMatrix = MGetScale(localScale_);
-        MATRIX rotMatrix   = localRotation_.toMatrix();
-        MATRIX transMatrix = MGetTranslate(localPosition_);
+        MATRIX scaleMatrix = MGetScale(local_scale_);
+        MATRIX rotMatrix   = local_rotation_.ToMatrix();
+        MATRIX transMatrix = MGetTranslate(local_position_);
 
         return MMult(scaleMatrix, MMult(rotMatrix, transMatrix));
     }
 
 private:
-    void addChild(Transform* child)
+    void AddChild(Transform* child)
     {
         if (child && std::find(children_.begin(), children_.end(), child) == children_.end()) {
             children_.push_back(child);
         }
     }
 
-    void removeChild(Transform* child)
+    void RemoveChild(Transform* child)
     {
         auto it = std::find(children_.begin(), children_.end(), child);
         if (it != children_.end()) {
@@ -391,13 +398,13 @@ private:
         }
     }
 
-    void markDirty()
+    void MarkDirty()
     {
-        isDirty_ = true;
+        is_dirty_ = true;
         // 子供たちもダーティにする
         for (auto* child : children_) {
             if (child) {
-                child->markDirty();
+                child->MarkDirty();
             }
         }
     }

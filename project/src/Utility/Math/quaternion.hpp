@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <cmath>
+#include "Utility/Math/math.hpp"
 
 namespace my_math
 {

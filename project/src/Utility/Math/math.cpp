@@ -10,10 +10,4 @@ namespace my_math
 	}
 	#pragma endregion
 
-	#pragma region élå≥êî
-	float QDot(Quaternion q1, Quaternion q2)
-	{
-		return (q1.x_ * q2.x_) + (q1.y_ * q2.y_) + (q1.z_ * q2.z_) + (q1.w_ + q2.w_);
-	}
-	#pragma endregion
 }

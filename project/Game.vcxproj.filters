@@ -99,6 +99,9 @@
     <ClCompile Include="src\Core\SceneManager\scene_manager.cpp">
       <Filter>src\Core\Scene\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Input\input_manager.cpp">
+      <Filter>src\Core\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\system\system.hpp">
@@ -157,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="src\Core\SceneManager\scene_manager.hpp">
       <Filter>src\Core\Scene\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Input\input_manager.hpp">
+      <Filter>src\Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Input\Data\input_data.hpp">
+      <Filter>src\Core\Input\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 #pragma once
-#include "Component/component.hpp"
-#include "cstdint"
-#include "functional"
-#include "algorithm"
+#include "Core/Component/component.hpp"
+#include <cstdint>
+#include <functional>
+#include <algorithm>
 
 class Health final : public Component
 {

@@ -25,6 +25,7 @@
     <ClCompile Include="src\Core\Component\transform.cpp" />
     <ClCompile Include="src\Core\GameManager\game_manager.cpp" />
     <ClCompile Include="src\Core\GameTime\game_time.cpp" />
+    <ClCompile Include="src\Core\Input\input_manager.cpp" />
     <ClCompile Include="src\Core\SceneManager\scene_manager.cpp" />
     <ClCompile Include="src\Core\Scene\scene.cpp" />
     <ClCompile Include="src\Object\game_object.cpp" />
@@ -40,6 +41,8 @@
     <ClInclude Include="src\Core\Component\transform.hpp" />
     <ClInclude Include="src\Core\GameManager\game_manager.hpp" />
     <ClInclude Include="src\Core\GameTime\game_time.hpp" />
+    <ClInclude Include="src\Core\Input\Data\input_data.hpp" />
+    <ClInclude Include="src\Core\Input\input_manager.hpp" />
     <ClInclude Include="src\Core\SceneManager\scene_manager.hpp" />
     <ClInclude Include="src\Core\Scene\Data\scene_type.hpp" />
     <ClInclude Include="src\Core\Scene\scene.hpp" />

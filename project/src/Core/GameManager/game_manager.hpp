@@ -19,14 +19,14 @@ public:
 	void Update()		   noexcept;
 
 private:
+	/// @brief 起動時間の更新
+	void UpdateBootTime()  noexcept;
 #ifdef _DEBUG
 	/// @brief デバッグの表示
 	void DebugOnDisplay() const noexcept;
 
-#endif // デバッグ機能
+#endif
 
-	/// @brief 起動時間の更新
-	void UpdateBootTime() noexcept;
 private:
 	std::shared_ptr<SceneManager> scene_manager_;
 	std::shared_ptr<GameTime>	  game_time_;

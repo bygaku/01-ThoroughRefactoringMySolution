@@ -24,7 +24,7 @@ public:
     void SetFpsTarget(int target)                     noexcept;
 
     /// @brief 2つ前と1つ前のフレーム間の時間差 (seconds)
-    static const float& GetDeltaTime() noexcept { return delta_time_; }
+    static const float& GetDeltaTime()                            noexcept { return delta_time_; }
 
 private:
 #pragma region privateメソッド
@@ -65,13 +65,12 @@ private:
     LONGLONG fps_check_time_;
     LONGLONG fixed_update_check_time_;
     float    time_since_start_up_;
-
+             
+    UINT     frames_;
     int      fps_;
     int      fps_target_;
     int      fps_counter_;
     double   seconds_per_frame_;
     int      last_fixed_frame_count_;
-
-    unsigned int frames_;
 
 };

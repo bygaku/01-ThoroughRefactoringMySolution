@@ -292,13 +292,13 @@ public:
         MarkDirty();
     }
 
-    void rotateEuler(const VECTOR& eulerAngles, bool worldSpace = false)
+    void RotateEuler(const VECTOR& eulerAngles, bool worldSpace = false)
     {
         Quaternion rotation = Quaternion::FromEulerRadians(eulerAngles.x, eulerAngles.y, eulerAngles.z);
         Rotate(rotation, worldSpace);
     }
 
-    void lookAt(const VECTOR& target, const VECTOR& up = VGet(0.0f, 1.0f, 0.0f))
+    void LookAt(const VECTOR& target, const VECTOR& up = VGet(0.0f, 1.0f, 0.0f))
     {
         VECTOR worldPos = GetWorldPosition();
         VECTOR forward  = VNorm(VSub(target, worldPos));

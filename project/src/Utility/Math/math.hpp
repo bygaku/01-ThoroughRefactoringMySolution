@@ -3,7 +3,11 @@
 #include <optional>
 #include <array>
 #include <unordered_map>
+
+#pragma region MathŠÖ˜ALink
 #include "Utility/Math/quaternion.hpp"
+#include "Utility/Math/vector2d.hpp"
+#pragma endregion
 
 namespace my_math
 {

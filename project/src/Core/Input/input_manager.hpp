@@ -1,59 +1,58 @@
 #pragma once
-#include "array"
-#include "memory"
-#include "unordered_map"
-#include "string"
-#include "optional"
-#include "Data/input_data.hpp"
-#include "Utility/Math/vector2d.hpp"
+#include <array>
+#include <memory>
+#include <unordered_map>
+#include <string>
+#include <optional>
+#include "Core/Input/Data/input_data.hpp"
+#include "Utility/Math/math.hpp"
 
 class InputManager 
 {
 public:
-    static InputManager& getInstance() noexcept;
-    static void          create()	   noexcept;
-    static void          destroy()	   noexcept;
+    static InputManager& GetInstance() noexcept;
+    static void          Create()	   noexcept;
+    static void          Destroy()	   noexcept;
 
-    void update() noexcept;
-    void debugView(int x = 10, int y = 10) const noexcept;
+    void Update() noexcept;
+    void Debug(int x = 10, int y = 10) const noexcept;
 
     /// @remark キーボード関連
-    [[nodiscard]] InputState getKeyState  (KeyCode key) const noexcept;
-    [[nodiscard]] bool       isKeyPressed (KeyCode key) const noexcept;
-    [[nodiscard]] bool       isKeyHeld    (KeyCode key) const noexcept;
-    [[nodiscard]] bool       isKeyReleased(KeyCode key) const noexcept;
+    [[nodiscard]] InputState GetKeyState  (KeyCode key) const noexcept;
+    [[nodiscard]] bool       IsKeyPressed (KeyCode key) const noexcept;
+    [[nodiscard]] bool       IsKeyHeld    (KeyCode key) const noexcept;
+    [[nodiscard]] bool       IsKeyReleased(KeyCode key) const noexcept;
 
     /// @remark マウス関連
-    [[nodiscard]] InputState          getMouseButtonState  (MouseButton button) const noexcept;
-    [[nodiscard]] bool                isMouseButtonPressed (MouseButton button) const noexcept;
-    [[nodiscard]] bool                isMouseButtonHeld    (MouseButton button) const noexcept;
-    [[nodiscard]] bool                isMouseButtonReleased(MouseButton button) const noexcept;
-    [[nodiscard]] my_math::Vector2D   getMousePosition()                        const noexcept;
-    [[nodiscard]] my_math::Vector2D   getMouseDelta()                           const noexcept;     /// @brief 前フレームからの向きを取得
-    [[nodiscard]] my_math::Vector2D   getMouseDeltaFromCenter()                 const noexcept;     /// @brief 画面中心座標からの向きを取得
-    [[nodiscard]] int                 getMouseWheelDelta()                      const noexcept;     
-    void                              resetMousePoint()                         const noexcept;     /// @brief マウス座標を毎フレーム画面中心に戻す
+    [[nodiscard]] InputState          GetMouseButtonState  (MouseButton button) const noexcept;
+    [[nodiscard]] bool                IsMouseButtonPressed (MouseButton button) const noexcept;
+    [[nodiscard]] bool                IsMouseButtonHeld    (MouseButton button) const noexcept;
+    [[nodiscard]] bool                IsMouseButtonReleased(MouseButton button) const noexcept;
+    [[nodiscard]] my_math::Vector2D   GetMousePosition()                        const noexcept;
+    [[nodiscard]] my_math::Vector2D   GetMouseDelta()                           const noexcept;     /// @brief 前フレームからの向きを取得
+    [[nodiscard]] my_math::Vector2D   GetMouseDeltaFromCenter()                 const noexcept;     /// @brief 画面中心座標からの向きを取得
+    [[nodiscard]] int                 GetMouseWheelDelta()                      const noexcept;     
+    void                              ResetMousePoint()                         const noexcept;     /// @brief マウス座標を毎フレーム画面中心に戻す
 
     /// @remark ゲームパッド関連
-    [[nodiscard]] bool       isPadConnected     (int playerIndex = 0)                   const noexcept;
-    //[[nodiscard]] PadState   getPad             (int playerIndex = 0)                   const noexcept;
-    [[nodiscard]] InputState getPadButtonState  (PadButton button, int playerIndex = 0) const noexcept;
-    [[nodiscard]] bool       isPadButtonPressed (PadButton button, int playerIndex = 0) const noexcept;
-    [[nodiscard]] bool       isPadButtonHeld    (PadButton button, int playerIndex = 0) const noexcept;
-    [[nodiscard]] bool       isPadButtonReleased(PadButton button, int playerIndex = 0) const noexcept;
+    [[nodiscard]] bool       IsPadConnected     (int playerIndex = 0)                   const noexcept;
+    [[nodiscard]] InputState GetPadButtonState  (PadButton button, int playerIndex = 0) const noexcept;
+    [[nodiscard]] bool       IsPadButtonPressed (PadButton button, int playerIndex = 0) const noexcept;
+    [[nodiscard]] bool       IsPadButtonHeld    (PadButton button, int playerIndex = 0) const noexcept;
+    [[nodiscard]] bool       IsPadButtonReleased(PadButton button, int playerIndex = 0) const noexcept;
 
     /// @remark スティック入力（-1.0f～1.0fの範囲）
-    [[nodiscard]] float             getPadStickValue(PadStick stick, int playerIndex = 0) const noexcept;
-    [[nodiscard]] my_math::Vector2D getPadLStick(int playerIndex = 0)                     const noexcept;
-    [[nodiscard]] my_math::Vector2D getPadRStick(int playerIndex = 0)                     const noexcept;
+    [[nodiscard]] float             GetPadStickValue(PadStick stick, int playerIndex = 0) const noexcept;
+    [[nodiscard]] my_math::Vector2D GetPadLStick(int playerIndex = 0)                     const noexcept;
+    [[nodiscard]] my_math::Vector2D GetPadRStick(int playerIndex = 0)                     const noexcept;
 
     /// @remark トリガー入力（0.0f～1.0fの範囲）
-    [[nodiscard]] float getPadLTrigger(int playerIndex = 0) const noexcept;
-    [[nodiscard]] float getPadRTrigger(int playerIndex = 0) const noexcept;
+    [[nodiscard]] float GetPadLTrigger(int playerIndex = 0) const noexcept;
+    [[nodiscard]] float GetPadRTrigger(int playerIndex = 0) const noexcept;
 
     /// @remark バイブレーション制御
-    void setPadVibration (int playerIndex, float leftMotor, float rightMotor, float duration = 0.0f) noexcept;
-    void stopPadVibration(int playerIndex)                                                           noexcept;
+    void SetPadVibration (int playerIndex, float leftMotor, float rightMotor, float duration = 0.0f) noexcept;
+    void StopPadVibration(int playerIndex)                                                           noexcept;
 
 private:
     static InputManager* instance_;
@@ -61,10 +60,10 @@ private:
     InputManager();
     ~InputManager() = default;
 
-    [[nodiscard]] InputState calculateInputState   (bool current, bool prev) const noexcept;
-    [[nodiscard]] float      normalizeStickValue   (short value)             const noexcept;
-    [[nodiscard]] float      normalizeTriggerValue (UCHAR value)             const noexcept;
-    void                     updatePadVibration    (float deltaTime)               noexcept;
+    [[nodiscard]] InputState CalculateInputState   (bool current, bool prev) const noexcept;
+    [[nodiscard]] float      NormalizeStickValue   (short value)             const noexcept;
+    [[nodiscard]] float      NormalizeTriggerValue (UCHAR value)             const noexcept;
+    void                     UpdatePadVibration    (float deltaTime)               noexcept;
 
 private:
     /// @remark 禁止
@@ -80,15 +79,15 @@ private:
     static constexpr double kStickDeadZone       =    0.2;  /// @brief デッドゾーン
 
     /// @remark キーボード関連
-    std::array<bool, kKeyAll> currentKeyState_ {};
-    std::array<bool, kKeyAll> prevKeyState_    {};
+    std::array<bool, kKeyAll> current_key_state_ {};
+    std::array<bool, kKeyAll> prev_key_state_    {};
 
     /// @remark マウス関連
-    std::array<bool, kMouseButtonAll> currentMouseState_{};
-    std::array<bool, kMouseButtonAll> prevMouseState_   {};
-    my_math::Vector2D                 mousePosition_    {};
-    my_math::Vector2D                 prevMousePosition_{};
-    int                               mouseWheelDelta_ = 0;
+    std::array<bool, kMouseButtonAll> current_mouse_state_{};
+    std::array<bool, kMouseButtonAll> prev_mouse_state_   {};
+    my_math::Vector2D                 mouse_position_     {};
+    my_math::Vector2D                 prev_mouse_position_{};
+    int                               mouse_wheel_delta_ = 0;
 
     /// @remark パッド関連 
     struct PadState

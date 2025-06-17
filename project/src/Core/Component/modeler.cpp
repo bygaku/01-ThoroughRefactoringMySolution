@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "Component/modeler.hpp"
+#include "Core/Component/modeler.hpp"
 
 Modeler::~Modeler() noexcept
 {
@@ -7,30 +7,30 @@ Modeler::~Modeler() noexcept
 	MV1DeleteModel(modelHandle_);
 }
 
-void Modeler::initialize() noexcept
+void Modeler::Initialize() noexcept
 {
 }
 
-void Modeler::draw() const noexcept
+void Modeler::Draw() const noexcept
 {
 	if (!modelHandle_) return;
 	MV1DrawModel(modelHandle_);
 }
 
-void Modeler::setModelHandle(std::string modelPath) noexcept
+void Modeler::SetModelHandle(std::string modelPath) noexcept
 {
 	if (modelHandle_ && modelHandle_ != -1) return;
 	modelHandle_ = MV1LoadModel(modelPath.c_str());
 }
 
-void Modeler::resetModelHandle() noexcept
+void Modeler::ResetModelHandle() noexcept
 {
 	if (!modelHandle_) return;
 	MV1DeleteModel(modelHandle_);
 	modelHandle_ = -1;
 }
 
-void Modeler::setMatrix(MATRIX mat) noexcept
+void Modeler::SetMatrix(MATRIX mat) noexcept
 {
 	if (!modelHandle_) return;
 

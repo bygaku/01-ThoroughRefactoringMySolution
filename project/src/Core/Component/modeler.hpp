@@ -1,5 +1,5 @@
 #pragma once
-#include "string"
+#include <string>
 #include "Core/Component/component.hpp"
 #include "Core/Component/transform.hpp"
 
@@ -9,7 +9,7 @@ public:
     Modeler() = delete;
     Modeler(GameObject& owner) noexcept
         : Component{ owner }
-        , modelHandle_(-1)
+        , model_handle_(-1)
     {
     };
 
@@ -19,14 +19,14 @@ public:
     void Draw()		  const		noexcept;
 
     /// @remark ÉnÉìÉhÉãëÄçÏ
-    int	 GetModelHandle() const noexcept { return modelHandle_; }
-    void SetModelHandle(std::string modelPath) noexcept;
-    void ResetModelHandle() noexcept;
+    int	 GetModelHandle() const noexcept { return model_handle_; }
+    void SetModelHandle(std::string model_path) noexcept;
+    void ResetModelHandle()     noexcept;
 
     /// @brief çsóÒ
-    void SetMatrix(MATRIX mat) noexcept;
+    void SetMatrix(MATRIX mat)  noexcept;
 
 private:
-    int	   modelHandle_;
+    int model_handle_;
 
 };

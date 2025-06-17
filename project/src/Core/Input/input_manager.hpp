@@ -35,24 +35,24 @@ public:
     void                              ResetMousePoint()                         const noexcept;     /// @brief マウス座標を毎フレーム画面中心に戻す
 
     /// @remark ゲームパッド関連
-    [[nodiscard]] bool       IsPadConnected     (int playerIndex = 0)                   const noexcept;
-    [[nodiscard]] InputState GetPadButtonState  (PadButton button, int playerIndex = 0) const noexcept;
-    [[nodiscard]] bool       IsPadButtonPressed (PadButton button, int playerIndex = 0) const noexcept;
-    [[nodiscard]] bool       IsPadButtonHeld    (PadButton button, int playerIndex = 0) const noexcept;
-    [[nodiscard]] bool       IsPadButtonReleased(PadButton button, int playerIndex = 0) const noexcept;
+    [[nodiscard]] bool       IsPadConnected     (int player_index = 0)                   const noexcept;
+    [[nodiscard]] InputState GetPadButtonState  (PadButton button, int player_index = 0) const noexcept;
+    [[nodiscard]] bool       IsPadButtonPressed (PadButton button, int player_index = 0) const noexcept;
+    [[nodiscard]] bool       IsPadButtonHeld    (PadButton button, int player_index = 0) const noexcept;
+    [[nodiscard]] bool       IsPadButtonReleased(PadButton button, int player_index = 0) const noexcept;
 
     /// @remark スティック入力（-1.0f～1.0fの範囲）
-    [[nodiscard]] float             GetPadStickValue(PadStick stick, int playerIndex = 0) const noexcept;
-    [[nodiscard]] my_math::Vector2D GetPadLStick(int playerIndex = 0)                     const noexcept;
-    [[nodiscard]] my_math::Vector2D GetPadRStick(int playerIndex = 0)                     const noexcept;
+    [[nodiscard]] float             GetPadStickValue(PadStick stick, int player_index = 0) const noexcept;
+    [[nodiscard]] my_math::Vector2D GetPadLStick(int player_index = 0)                     const noexcept;
+    [[nodiscard]] my_math::Vector2D GetPadRStick(int player_index = 0)                     const noexcept;
 
     /// @remark トリガー入力（0.0f～1.0fの範囲）
-    [[nodiscard]] float GetPadLTrigger(int playerIndex = 0) const noexcept;
-    [[nodiscard]] float GetPadRTrigger(int playerIndex = 0) const noexcept;
+    [[nodiscard]] float GetPadLTrigger(int player_index = 0) const noexcept;
+    [[nodiscard]] float GetPadRTrigger(int player_index = 0) const noexcept;
 
     /// @remark バイブレーション制御
-    void SetPadVibration (int playerIndex, float leftMotor, float rightMotor, float duration = 0.0f) noexcept;
-    void StopPadVibration(int playerIndex)                                                           noexcept;
+    void SetPadVibration (int player_index, float left_motor, float right_motor, float duration = 0.0f) noexcept;
+    void StopPadVibration(int player_index)                                                             noexcept;
 
 private:
     static InputManager* instance_;
@@ -63,7 +63,7 @@ private:
     [[nodiscard]] InputState CalculateInputState   (bool current, bool prev) const noexcept;
     [[nodiscard]] float      NormalizeStickValue   (short value)             const noexcept;
     [[nodiscard]] float      NormalizeTriggerValue (UCHAR value)             const noexcept;
-    void                     UpdatePadVibration    (float deltaTime)               noexcept;
+    void                     UpdatePadVibration    (float delta_time)              noexcept;
 
 private:
     /// @remark 禁止
@@ -92,10 +92,10 @@ private:
     /// @remark パッド関連 
     struct PadState
     {
-        XINPUT_STATE     currentState            {};
-        XINPUT_STATE     prevState_              {};
-        bool             connected_         = false;
-        float            vibrationDuration_ =  0.0f;
+        XINPUT_STATE     current_state_           {};
+        XINPUT_STATE     prev_state_              {};
+        bool             connected_          = false;
+        float            vibration_duration_ =  0.0f;
     };
 
     std::array<PadState, kMaxGamepads> gamepads_ {};

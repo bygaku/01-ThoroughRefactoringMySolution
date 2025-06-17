@@ -29,7 +29,7 @@ bool GameManager::IsRunning() const noexcept
 
 void GameManager::Update() noexcept
 {
-    auto& input = InputManager::getInstance();
+    auto& input = InputManager::GetInstance();
 
     ClearDrawScreen();
     UpdateBootTime();

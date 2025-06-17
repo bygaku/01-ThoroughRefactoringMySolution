@@ -76,10 +76,10 @@ double GameTime::GetCurrentFrameTime() const noexcept
 
 void GameTime::SleepForNextFrame() const noexcept
 {
-    auto frametime = GetCurrentFrameTime();
+    auto frame_time = GetCurrentFrameTime();
 
-    if (GetSecondsPerFrame() > frametime) {
-        WaitTimer(static_cast<int>(GetSecondsPerFrame() - frametime) * 1000);
+    if (GetSecondsPerFrame() > frame_time) {
+        WaitTimer(static_cast<int>(GetSecondsPerFrame() - frame_time) * 1000);
     }
 }
 

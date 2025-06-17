@@ -4,9 +4,9 @@
 namespace my_math
 {
 	#pragma region ƒxƒNƒgƒ‹
-	[[nodiscard]] VECTOR GetUnitVector(const VECTOR& vector)
+	[[nodiscard]] VECTOR GetUnitVector(const VECTOR& vec)
 	{
-		return VSize(vector) != 0 ? VNorm(vector) : vector;
+		return VSize(vec) != 0 ? VNorm(vec) : vec;
 	}
 	#pragma endregion
 

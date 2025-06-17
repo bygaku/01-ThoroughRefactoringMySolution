@@ -55,44 +55,44 @@ namespace my_math
         // 軸と角度から四元数を作成
         static Quaternion FromAxisAngle(const VECTOR& axis, float angle)
         {
-            VECTOR normalizedAxis = VNorm(axis);
-            float halfAngle       = angle * 0.5f;
-            float sinHalfAngle    = sin(halfAngle);
+            VECTOR normalized_axis = VNorm(axis);
+            float  half_angle      = angle * 0.5f;
+            float  sin_half_angle  = sin(half_angle);
 
             return Quaternion(
-                normalizedAxis.x * sinHalfAngle,
-                normalizedAxis.y * sinHalfAngle,
-                normalizedAxis.z * sinHalfAngle,
-                cos(halfAngle)
+                normalized_axis.x * sin_half_angle,
+                normalized_axis.y * sin_half_angle,
+                normalized_axis.z * sin_half_angle,
+                cos(half_angle)
             );
         }
 
         // 2つのベクトル間の回転を作成
         static Quaternion FromToRotation(const VECTOR& from, const VECTOR& to)
         {
-            VECTOR fromNorm = VNorm(from);
-            VECTOR toNorm   = VNorm(to);
+            VECTOR from_norm = VNorm(from);
+            VECTOR to_norm   = VNorm(to);
 
             /// 2つのベクトルの内積
-            float dot = VDot(fromNorm, toNorm);
+            float dot = VDot(from_norm, to_norm);
 
             if (dot >= 0.999999f) {
                 return Identity();
             }
 
             if (dot <= -0.999999f) {
-                VECTOR axis = VCross(VGet(1.0f, 0.0f, 0.0f), fromNorm);
+                VECTOR axis = VCross(VGet(1.0f, 0.0f, 0.0f), from_norm);
 
                 if (VSquareSize(axis) < 0.000001f) {
-                    axis = VCross(VGet(0.0f, 1.0f, 0.0f), fromNorm);
+                    axis = VCross(VGet(0.0f, 1.0f, 0.0f), from_norm);
                 }
 
                 axis = VNorm(axis);
                 return FromAxisAngle(axis, DX_PI_F);
             }
 
-            VECTOR axis = VCross(fromNorm, toNorm);
-            float w     = sqrt(VSquareSize(fromNorm) * VSquareSize(toNorm)) + dot;
+            VECTOR axis = VCross(from_norm, to_norm);
+            float  w    = sqrt(VSquareSize(from_norm) * VSquareSize(to_norm)) + dot;
 
             Quaternion result(axis.x, axis.y, axis.z, w);
             return result.Normalized();
@@ -106,8 +106,8 @@ namespace my_math
                 return Identity();
             }
 
-            float invLen = 1.0f / len;
-            return Quaternion(x_ * invLen, y_ * invLen, z_ * invLen, w_ * invLen);
+            float inv_len = 1.0f / len;
+            return Quaternion(x_ * inv_len, y_ * inv_len, z_ * inv_len, w_ * inv_len);
         }
 
         // 正規化（自身を変更）
@@ -125,19 +125,19 @@ namespace my_math
         // 逆元
         Quaternion Inverse() const
         {
-            float lengthSq = x_ * x_ + y_ * y_ + z_ * z_ + w_ * w_;
-            if (lengthSq < 0.000001f) {
+            float length_sq = x_ * x_ + y_ * y_ + z_ * z_ + w_ * w_;
+            if (length_sq < 0.000001f) {
                 return Identity();
             }
 
-            Quaternion conj   = Conjugate();
-            float invLengthSq = 1.0f / lengthSq;
+            Quaternion conj     = Conjugate();
+            float inv_length_sq = 1.0f / length_sq;
 
             return Quaternion(
-                conj.x_ * invLengthSq,
-                conj.y_ * invLengthSq,
-                conj.z_ * invLengthSq,
-                conj.w_ * invLengthSq
+                conj.x_ * inv_length_sq,
+                conj.y_ * inv_length_sq,
+                conj.z_ * inv_length_sq,
+                conj.w_ * inv_length_sq
             );
         }
 
@@ -155,8 +155,8 @@ namespace my_math
         // ベクトルの回転
         VECTOR RotateVector(const VECTOR& vec) const
         {
-            Quaternion vecQuat(vec.x, vec.y, vec.z, 0.0f);
-            Quaternion result = (*this) * vecQuat * Conjugate();
+            Quaternion vec_quat(vec.x, vec.y, vec.z, 0.0f);
+            Quaternion result = (*this) * vec_quat * Conjugate();
             return VGet(result.x_, result.y_, result.z_);
         }
 
@@ -230,7 +230,7 @@ namespace my_math
             Quaternion q1 = from.Normalized();
             Quaternion q2 = to.Normalized();
 
-            float dot = my_math::QDot(q1, q2);
+            float dot = (q1.x_ * q2.x_) + (q1.y_ * q2.y_) + (q1.z_ * q2.z_) + (q1.w_ + q2.w_);
 
             if (dot < 0.0f) {
                 q2 = Quaternion(-q2.x_, -q2.y_, -q2.z_, -q2.w_);
@@ -248,9 +248,9 @@ namespace my_math
             }
 
             float theta     = acos(dot);
-            float sinTheta  = sin(theta);
-            float weight1   = sin((1.0f - t) * theta) / sinTheta;
-            float weight2   = sin(t * theta)          / sinTheta;
+            float sin_theta = sin(theta);
+            float weight1   = sin((1.0f - t) * theta) / sin_theta;
+            float weight2   = sin(t * theta)          / sin_theta;
 
             return Quaternion(
                 weight1 * q1.x_ + weight2 * q2.x_,
@@ -260,5 +260,14 @@ namespace my_math
             );
         }
     };
+
+    /// @brief 2つの回転の内積
+    /// @brief 内積（cosθ）
+    /*
+    [[nodiscard]] const float& QDot(Quaternion q1, Quaternion q2)
+    {
+        return (q1.x_ * q2.x_) + (q1.y_ * q2.y_) + (q1.z_ * q2.z_) + (q1.w_ + q2.w_);
+    };
+    */
 
 } // my_math end.

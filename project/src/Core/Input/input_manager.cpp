@@ -37,37 +37,37 @@ void InputManager::Update() noexcept
 {
     ASSERT(instance_ != nullptr, "this->create(); hasn't been called yet.");
 
-    prev_mouse_position_  =     mouse_position_;
+    prev_mouse_position_  =      mouse_position_;
     prev_key_state_       =   current_key_state_;
     prev_mouse_state_     = current_mouse_state_;
 
     // キーボード状態更新
-    char keyState[256];
-    GetHitKeyStateAll(keyState);
+    char key_state[256];
+    GetHitKeyStateAll(key_state);
 
     for (int i = 0; i < kKeyAll; ++i){
-        current_key_state_[i] = (keyState[i] != 0);
+        current_key_state_[i] = (key_state[i] != 0);
     }
 
     // マウス状態更新
-    int mouseInput = GetMouseInput();
-    current_mouse_state_[static_cast<int>(MouseButton::L)]   = (mouseInput & MOUSE_INPUT_LEFT)   != 0;
-    current_mouse_state_[static_cast<int>(MouseButton::R)]   = (mouseInput & MOUSE_INPUT_RIGHT)  != 0;
-    current_mouse_state_[static_cast<int>(MouseButton::Mid)] = (mouseInput & MOUSE_INPUT_MIDDLE) != 0;
+    int mouse_input = GetMouseInput();
+    current_mouse_state_[static_cast<int>(MouseButton::L)]   = (mouse_input & MOUSE_INPUT_LEFT)   != 0;
+    current_mouse_state_[static_cast<int>(MouseButton::R)]   = (mouse_input & MOUSE_INPUT_RIGHT)  != 0;
+    current_mouse_state_[static_cast<int>(MouseButton::Mid)] = (mouse_input & MOUSE_INPUT_MIDDLE) != 0;
 
     // マウス座標更新
-    int mouseX, mouseY;
-    GetMousePoint(&mouseX, &mouseY);
-    mouse_position_ = Vector2D(static_cast<float>(mouseX), static_cast<float>(mouseY));
+    int mouse_x, mouse_y;
+    GetMousePoint(&mouse_x, &mouse_y);
+    mouse_position_ = Vector2D(static_cast<float>(mouse_x), static_cast<float>(mouse_y));
 
     // マウスホイール更新
     mouse_wheel_delta_ = GetMouseWheelRotVol();
 
     // ゲームパッド状態更新
     for (int i = 0; i < kMaxGamepads; ++i) {
-        gamepads_[i].prevState_ = gamepads_[i].currentState;
+        gamepads_[i].prev_state_ = gamepads_[i].current_state_;
 
-        DWORD result            = GetJoypadXInputState(i, &gamepads_[i].currentState);
+        DWORD result            = GetJoypadXInputState(i, &gamepads_[i].current_state_);
         gamepads_[i].connected_ = (result == ERROR_SUCCESS);
     }
 
@@ -77,8 +77,8 @@ void InputManager::Update() noexcept
 #pragma region キーボードアクセサ
 InputState InputManager::GetKeyState(KeyCode key) const noexcept
 {
-    int keyIndex = static_cast<int>(key);
-    return CalculateInputState(current_key_state_[keyIndex], prev_key_state_[keyIndex]);
+    int key_index = static_cast<int>(key);
+    return CalculateInputState(current_key_state_[key_index], prev_key_state_[key_index]);
 }
 
 bool InputManager::IsKeyPressed(KeyCode key) const noexcept
@@ -100,8 +100,8 @@ bool InputManager::IsKeyReleased(KeyCode key) const noexcept
 #pragma region マウスアクセサ
 InputState InputManager::GetMouseButtonState(MouseButton button) const noexcept
 {
-    int buttonIndex = static_cast<int>(button);
-    return CalculateInputState(current_mouse_state_[buttonIndex], prev_mouse_state_[buttonIndex]);
+    int button_index = static_cast<int>(button);
+    return CalculateInputState(current_mouse_state_[button_index], prev_mouse_state_[button_index]);
 }
 
 bool InputManager::IsMouseButtonPressed(MouseButton button) const noexcept
@@ -149,53 +149,52 @@ void InputManager::ResetMousePoint() const noexcept
 #pragma endregion
 
 #pragma region ゲームパッドアクセサ
-bool InputManager::IsPadConnected(int playerIndex) const noexcept
+bool InputManager::IsPadConnected(int player_index) const noexcept
 {
-    if (playerIndex < 0 || playerIndex >= kMaxGamepads) {
+    if (player_index < 0 || player_index >= kMaxGamepads) {
         return false;
     }
     
-    return gamepads_[playerIndex].connected_;
+    return gamepads_[player_index].connected_;
 }
 
-InputState InputManager::GetPadButtonState(PadButton button, int playerIndex) const noexcept
+InputState InputManager::GetPadButtonState(PadButton button, int player_index) const noexcept
 {
-    if (playerIndex < 0 || playerIndex >= kMaxGamepads || !gamepads_[playerIndex].connected_) {
+    if (player_index < 0 || player_index >= kMaxGamepads || !gamepads_[player_index].connected_) {
         return InputState::kNone;
     }
 
-    WORD buttonFlag = static_cast<WORD>(button);
-    bool current    = (gamepads_[playerIndex].currentState.Buttons[static_cast<int>(button)] & buttonFlag) != 0;
-    bool prev       = (gamepads_[playerIndex].prevState_.Buttons  [static_cast<int>(button)] & buttonFlag) != 0;
+    WORD button_flag = static_cast<WORD>(button);
+    bool current     = (gamepads_[player_index].current_state_.Buttons[static_cast<int>(button)] & button_flag) != 0;
+    bool prev        = (gamepads_[player_index].prev_state_.Buttons  [static_cast<int>(button)] & button_flag) != 0;
 
     return CalculateInputState(current, prev);
 }
 
-bool InputManager::IsPadButtonPressed(PadButton button, int playerIndex) const noexcept
+bool InputManager::IsPadButtonPressed(PadButton button, int player_index) const noexcept
 {
-    return GetPadButtonState(button, playerIndex) == InputState::kPressed;
+    return GetPadButtonState(button, player_index) == InputState::kPressed;
 }
 
-bool InputManager::IsPadButtonHeld(PadButton button, int playerIndex) const noexcept
+bool InputManager::IsPadButtonHeld(PadButton button, int player_index) const noexcept
 {
-    return GetPadButtonState(button, playerIndex) == InputState::kHeld;
+    return GetPadButtonState(button, player_index) == InputState::kHeld;
 }
 
-bool InputManager::IsPadButtonReleased(PadButton button, int playerIndex) const noexcept
+bool InputManager::IsPadButtonReleased(PadButton button, int player_index) const noexcept
 {
-    return GetPadButtonState(button, playerIndex) == InputState::kReleased;
+    return GetPadButtonState(button, player_index) == InputState::kReleased;
 }
 
-float InputManager::GetPadStickValue(PadStick stick, int playerIndex) const noexcept
+float InputManager::GetPadStickValue(PadStick stick, int player_index) const noexcept
 {
-    if (playerIndex < 0 || playerIndex >= kMaxGamepads || !gamepads_[playerIndex].connected_) {
+    if (player_index < 0 || player_index >= kMaxGamepads || !gamepads_[player_index].connected_) {
         return 0.0f;
     }
 
-    const auto& gamepad = gamepads_[playerIndex].currentState;
+    const auto& gamepad = gamepads_[player_index].current_state_;
 
-    switch (stick) 
-    {
+    switch (stick) {
     case PadStick::LX:
         return NormalizeStickValue(gamepad.ThumbLX);
     case PadStick::LY:
@@ -209,50 +208,50 @@ float InputManager::GetPadStickValue(PadStick stick, int playerIndex) const noex
     }
 }
 
-Vector2D InputManager::GetPadLStick(int playerIndex) const noexcept
+Vector2D InputManager::GetPadLStick(int player_index) const noexcept
 {
     return Vector2D(
-        GetPadStickValue(PadStick::LX, playerIndex),
-        GetPadStickValue(PadStick::LY, playerIndex)
+        GetPadStickValue(PadStick::LX, player_index),
+        GetPadStickValue(PadStick::LY, player_index)
     );
 }
 
-Vector2D InputManager::GetPadRStick(int playerIndex) const noexcept
+Vector2D InputManager::GetPadRStick(int player_index) const noexcept
 {
     return Vector2D(
-        GetPadStickValue(PadStick::RX, playerIndex),
-        GetPadStickValue(PadStick::RY, playerIndex)
+        GetPadStickValue(PadStick::RX, player_index),
+        GetPadStickValue(PadStick::RY, player_index)
     );
 }
 
-float InputManager::GetPadLTrigger(int playerIndex) const noexcept
+float InputManager::GetPadLTrigger(int player_index) const noexcept
 {
-    if (playerIndex < 0 || playerIndex >= kMaxGamepads || !gamepads_[playerIndex].connected_) {
+    if (player_index < 0 || player_index >= kMaxGamepads || !gamepads_[player_index].connected_) {
         return 0.0f;
     }
 
-    return NormalizeTriggerValue(gamepads_[playerIndex].currentState.LeftTrigger);
+    return NormalizeTriggerValue(gamepads_[player_index].current_state_.LeftTrigger);
 }
 
-float InputManager::GetPadRTrigger(int playerIndex) const noexcept
+float InputManager::GetPadRTrigger(int player_index) const noexcept
 {
-    if (playerIndex < 0 || playerIndex >= kMaxGamepads || !gamepads_[playerIndex].connected_) {
+    if (player_index < 0 || player_index >= kMaxGamepads || !gamepads_[player_index].connected_) {
         return 0.0f;
     }
 
-    return NormalizeTriggerValue(gamepads_[playerIndex].currentState.RightTrigger);
+    return NormalizeTriggerValue(gamepads_[player_index].current_state_.RightTrigger);
 }
 
-void InputManager::SetPadVibration(int playerIndex, float leftMotor, float rightMotor, float duration) noexcept
+void InputManager::SetPadVibration(int player_index, float left_motor, float right_motor, float duration) noexcept
 {
-    if (playerIndex < 0 || playerIndex >= kMaxGamepads || !gamepads_[playerIndex].connected_) return;
+    if (player_index < 0 || player_index >= kMaxGamepads || !gamepads_[player_index].connected_) return;
 
     /// HACK: 振動設定
 }
 
-void InputManager::StopPadVibration(int playerIndex) noexcept
+void InputManager::StopPadVibration(int player_index) noexcept
 {
-    if (playerIndex < 0 || playerIndex >= kMaxGamepads) return;
+    if (player_index < 0 || player_index >= kMaxGamepads) return;
 
     /// HACK: 振動停止処理
 }
@@ -261,30 +260,30 @@ void InputManager::StopPadVibration(int playerIndex) noexcept
 void InputManager::Debug(int x, int y) const noexcept
 {
     printfDx("\n\n");
-    int drawY            =  y;
-    const int lineHeight = 20;
+    int draw_y            =  y;
+    const int line_height = 20;
 
     // マウス情報
     printfDx("\nMouse: pos(%.1f, %.1f) Wheel(%d)",
              mouse_position_.x_, mouse_position_.y_, mouse_wheel_delta_);
 
-    drawY += lineHeight;
+    draw_y += line_height;
 
     // ゲームパッド情報
     for (int i = 0; i < kMaxGamepads; ++i)
     {
         if (gamepads_[i].connected_) 
         {
-            Vector2D leftStick  = GetPadLStick(i);
-            Vector2D rightStick = GetPadRStick(i);
-            float leftTrigger   = GetPadLTrigger(i);
-            float rightTrigger  = GetPadRTrigger(i);
+            Vector2D left_stick  = GetPadLStick(i);
+            Vector2D right_stick = GetPadRStick(i);
+            float left_trigger   = GetPadLTrigger(i);
+            float right_trigger  = GetPadRTrigger(i);
 
             printfDx("\nPad[%d]: L(%.1f,%.1f) R(%.1f,%.1f) LT:(%.1f) RT:(%.1f)",
-                             i + 1, leftStick.x_, leftStick.y_, rightStick.x_, rightStick.y_,
-                             leftTrigger, rightTrigger);
+                             i + 1, left_stick.x_, left_stick.y_, right_stick.x_, right_stick.y_,
+                             left_trigger, right_trigger);
 
-            drawY += lineHeight;
+            draw_y += line_height;
         }
     }
 }
@@ -345,17 +344,17 @@ float InputManager::NormalizeTriggerValue(UCHAR value) const noexcept
     return static_cast<float>(value) / 255.0f;
 }
 
-void InputManager::UpdatePadVibration(float deltaTime) noexcept
+void InputManager::UpdatePadVibration(float delta_time) noexcept
 {
     for (int i = 0; i < kMaxGamepads; ++i) 
     {
         auto& gamepad = gamepads_[i];
 
-        if (gamepad.vibrationDuration_ > 0.0f) 
+        if (gamepad.vibration_duration_ > 0.0f) 
         {
-            gamepad.vibrationDuration_ -= deltaTime;
+            gamepad.vibration_duration_ -= delta_time;
 
-            if (gamepad.vibrationDuration_ <= 0.0f)
+            if (gamepad.vibration_duration_ <= 0.0f)
             {
                 StopPadVibration(i);
             }

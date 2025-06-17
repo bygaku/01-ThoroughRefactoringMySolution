@@ -3,8 +3,8 @@
 
 Modeler::~Modeler() noexcept
 {
-	if (!modelHandle_) return;
-	MV1DeleteModel(modelHandle_);
+	if (!model_handle_) return;
+	MV1DeleteModel(model_handle_);
 }
 
 void Modeler::Initialize() noexcept
@@ -13,30 +13,30 @@ void Modeler::Initialize() noexcept
 
 void Modeler::Draw() const noexcept
 {
-	if (!modelHandle_) return;
-	MV1DrawModel(modelHandle_);
+	if (!model_handle_) return;
+	MV1DrawModel(model_handle_);
 }
 
-void Modeler::SetModelHandle(std::string modelPath) noexcept
+void Modeler::SetModelHandle(std::string model_path) noexcept
 {
-	if (modelHandle_ && modelHandle_ != -1) return;
-	modelHandle_ = MV1LoadModel(modelPath.c_str());
+	if (model_handle_ && model_handle_ != -1) return;
+	model_handle_ = MV1LoadModel(model_path.c_str());
 }
 
 void Modeler::ResetModelHandle() noexcept
 {
-	if (!modelHandle_) return;
-	MV1DeleteModel(modelHandle_);
-	modelHandle_ = -1;
+	if (!model_handle_) return;
+	MV1DeleteModel(model_handle_);
+	model_handle_ = -1;
 }
 
 void Modeler::SetMatrix(MATRIX mat) noexcept
 {
-	if (!modelHandle_) return;
+	if (!model_handle_) return;
 
 	// YŽ²‚Å180“x‰ñ“]
 	//MATRIX modelRotation = MGetRotY(DX_PI_F);
 	//MATRIX finalMatrix   = MMult(modelRotation, mat);
 
-	MV1SetMatrix(modelHandle_, mat);
+	MV1SetMatrix(model_handle_, mat);
 }

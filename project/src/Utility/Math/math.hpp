@@ -17,18 +17,8 @@ namespace my_math
 	#pragma region ベクトル
 	/// @brief 単位ベクトル変換
 	/// @return 0ベクトルでなければ、正規化したベクトルを返す
-	[[nodiscard]] VECTOR GetUnitVector(const VECTOR& vector);
+	[[nodiscard]] VECTOR GetUnitVector(const VECTOR& vec);
 
 	#pragma endregion
 
-
-	#pragma region 四元数
-	/// @brief 2つの回転の内積
-	/// @brief 内積（cosθ）
-	[[nodiscard]] float QDot(Quaternion q1, Quaternion q2)
-	{
-		return (q1.x_ * q2.x_) + (q1.y_ * q2.y_) + (q1.z_ * q2.z_) + (q1.w_ + q2.w_);
-	};
-
-	#pragma endregion
 }

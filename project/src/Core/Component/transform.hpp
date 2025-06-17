@@ -145,9 +145,9 @@ public:
         local_scale_ = VGet(x, y, z);
         MarkDirty();
     }
-    void SetLocalScale(float uniScale)
+    void SetLocalScale(float uni_scale)
     {
-        local_scale_ = VGet(uniScale, uniScale, uniScale);
+        local_scale_ = VGet(uni_scale, uni_scale, uni_scale);
         MarkDirty();
     }
 
@@ -169,17 +169,17 @@ public:
             world_scale_    = parent_->GetWorldScale();
 
             // ローカル変換を適用
-            VECTOR scaledPos = VGet(
+            VECTOR scaled_pos = VGet(
                 local_position_.x * world_scale_.x,
                 local_position_.y * world_scale_.y,
                 local_position_.z * world_scale_.z
             );
 
-            VECTOR rotatedPos = world_rotation_.RotateVector(scaledPos);
+            VECTOR rotated_pos = world_rotation_.RotateVector(scaled_pos);
 
-            world_position_   = VAdd(world_position_, rotatedPos);
-            world_rotation_   = world_rotation_ * local_rotation_;
-            world_scale_      = VGet(
+            world_position_    = VAdd(world_position_, rotated_pos);
+            world_rotation_    = world_rotation_ * local_rotation_;
+            world_scale_       = VGet(
                 world_scale_.x * local_scale_.x,
                 world_scale_.y * local_scale_.y,
                 world_scale_.z * local_scale_.z
@@ -193,13 +193,12 @@ public:
         }
 
         // ワールド行列を更新
-        MATRIX scaleMatrix = MGetScale(world_scale_);
-        MATRIX rotMatrix   = world_rotation_.ToMatrix();
-        MATRIX transMatrix = MGetTranslate(world_position_);
+        MATRIX scale_matrix = MGetScale(world_scale_);
+        MATRIX rot_matrix   = world_rotation_.ToMatrix();
+        MATRIX trans_matrix = MGetTranslate(world_position_);
 
-        world_matrix_ = MMult(scaleMatrix, MMult(rotMatrix, transMatrix));
-
-        is_dirty_ = false;
+        world_matrix_ = MMult(scale_matrix, MMult(rot_matrix, trans_matrix));
+        is_dirty_     = false;
     }
 
     const VECTOR& GetWorldPosition()
@@ -225,19 +224,19 @@ public:
         if (parent_) {
             UpdateWorldTransform();
 
-            VECTOR     parentPos    = parent_->GetWorldPosition();
-            Quaternion parentRotInv = parent_->GetWorldRotation().Inverse();
-            VECTOR     parentScale  = parent_->GetWorldScale();
+            VECTOR     parent_pos     = parent_->GetWorldPosition();
+            Quaternion parent_rot_inv = parent_->GetWorldRotation().Inverse();
+            VECTOR     parent_scale   = parent_->GetWorldScale();
 
-            VECTOR localPos = VSub(pos, parentPos);
-            localPos        = parentRotInv.RotateVector(localPos);
-            localPos        = VGet(
-                              localPos.x / parentScale.x,
-                              localPos.y / parentScale.y,
-                              localPos.z / parentScale.z
-            );
+            VECTOR local_pos = VSub(pos, parent_pos);
+            local_pos        = parent_rot_inv.RotateVector(local_pos);
+            local_pos        = VGet(
+                              local_pos.x / parent_scale.x,
+                              local_pos.y / parent_scale.y,
+                              local_pos.z / parent_scale.z
+                              );
 
-            local_position_ = localPos;
+            local_position_ = local_pos;
         }
         else {
             local_position_ = pos;
@@ -251,8 +250,8 @@ public:
         if (parent_) {
             UpdateWorldTransform();
 
-            Quaternion parentRotInv = parent_->GetWorldRotation().Inverse();
-            local_rotation_         = parentRotInv * rot;
+            Quaternion parent_rot_inv = parent_->GetWorldRotation().Inverse();
+            local_rotation_           = parent_rot_inv * rot;
         }
         else {
             local_rotation_ = rot;
@@ -265,22 +264,22 @@ public:
     // 移動・回転操作
     // ==================================================
 
-    void Translate(const VECTOR& translation, bool worldSpace = false)
+    void Translate(const VECTOR& translation, bool world_space = false)
     {
-        if (worldSpace) {
+        if (world_space) {
             local_position_ = VAdd(local_position_, translation);
         }
         else {
-            VECTOR localTranslation = local_rotation_.RotateVector(translation);
-            local_position_         = VAdd(local_position_, localTranslation);
+            VECTOR local_translation = local_rotation_.RotateVector(translation);
+            local_position_          = VAdd(local_position_, local_translation);
         }
 
         MarkDirty();
     }
 
-    void Rotate(const Quaternion& rotation, bool worldSpace = false)
+    void Rotate(const Quaternion& rotation, bool world_space = false)
     {
-        if (worldSpace) {
+        if (world_space) {
             local_rotation_ = rotation * local_rotation_;
         }
         else {
@@ -292,19 +291,19 @@ public:
         MarkDirty();
     }
 
-    void RotateEuler(const VECTOR& eulerAngles, bool worldSpace = false)
+    void RotateEuler(const VECTOR& euler_angles, bool world_space = false)
     {
-        Quaternion rotation = Quaternion::FromEulerRadians(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-        Rotate(rotation, worldSpace);
+        Quaternion rotation = Quaternion::FromEulerRadians(euler_angles.x, euler_angles.y, euler_angles.z);
+        Rotate(rotation, world_space);
     }
 
     void LookAt(const VECTOR& target, const VECTOR& up = VGet(0.0f, 1.0f, 0.0f))
     {
-        VECTOR worldPos = GetWorldPosition();
-        VECTOR forward  = VNorm(VSub(target, worldPos));
+        VECTOR world_pos = GetWorldPosition();
+        VECTOR forward   = VNorm(VSub(target, world_pos));
 
-        Quaternion lookRotation = Quaternion::FromToRotation(VGet(0.0f, 0.0f, 1.0f), forward);
-        SetWorldRotation(lookRotation);
+        Quaternion look_rotation = Quaternion::FromToRotation(VGet(0.0f, 0.0f, 1.0f), forward);
+        SetWorldRotation(look_rotation);
     }
 
     // ==================================================
@@ -332,9 +331,9 @@ public:
 
     Transform* GetParent() const { return parent_; }
 
-    void SetParent(Transform* newParent)
+    void SetParent(Transform* new_parent)
     {
-        if (parent_ == newParent) return;
+        if (parent_ == new_parent) return;
 
         // 古い親から削除
         if (parent_) {
@@ -342,7 +341,7 @@ public:
         }
 
         // 新しい親に追加
-        parent_ = newParent;
+        parent_ = new_parent;
         if (parent_) {
             parent_->AddChild(this);
         }
@@ -375,11 +374,11 @@ public:
 
     MATRIX GetLocalMatrix() const
     {
-        MATRIX scaleMatrix = MGetScale(local_scale_);
-        MATRIX rotMatrix   = local_rotation_.ToMatrix();
-        MATRIX transMatrix = MGetTranslate(local_position_);
+        MATRIX scale_matrix = MGetScale(local_scale_);
+        MATRIX rot_matrix   = local_rotation_.ToMatrix();
+        MATRIX trans_matrix = MGetTranslate(local_position_);
 
-        return MMult(scaleMatrix, MMult(rotMatrix, transMatrix));
+        return MMult(scale_matrix, MMult(rot_matrix, trans_matrix));
     }
 
 private:

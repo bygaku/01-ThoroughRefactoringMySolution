@@ -3,11 +3,11 @@
 
 static struct ObjectTag
 {
-    std::string BOX     = "Box";
-    std::string TEXT    = "Text";
-    std::string CAMERA  = "Camera";
-    std::string PLAYER  = "Player";
-    std::string PLANE   = "Plane";
-    std::string SCORE   = "Score";
+    std::string kBox     = "Box";
+    std::string kText    = "Text";
+    std::string kCamera  = "Camera";
+    std::string kPlayer  = "Player";
+    std::string kPlane   = "Plane";
+    std::string kScore   = "Score";
 
 }ObjectTag;

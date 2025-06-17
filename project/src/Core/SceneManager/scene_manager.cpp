@@ -6,7 +6,7 @@
 #include "Core/Scene/load.hpp"
 #include "Core/Scene/stage.hpp"
 #include "Core/Scene/result.hpp"
-#include "Core/Scene/shared.hpp"
+//#include "Core/Scene/shared.hpp"
 
 #include "Core/SceneManager/scene_manager.hpp"
 
@@ -68,20 +68,20 @@ void SceneManager::ChangeScene(std::string tag) noexcept
 	if (!scenes_.count(tag))		    return;
 
 	// LOADシーンでのTaskCompleteにより、次のシーンへ即座に切り替え
-	auto currentLoadScene = std::dynamic_pointer_cast<LoadScene>(current_scene_);
-	if (currentLoadScene) {
+	auto current_load_scene = std::dynamic_pointer_cast<LoadScene>(current_scene_);
+	if (current_load_scene) {
 		ChangeSceneImmediate(tag);
 		return;
 	}
 
 	// 他のシーンの場合は、LoadSceneを経由して非同期読み込み
-	auto loadScene = std::dynamic_pointer_cast<LoadScene>(scenes_[SceneType.kLoad]);
-	if (loadScene) {
+	auto load_scene = std::dynamic_pointer_cast<LoadScene>(scenes_[SceneType.kLoad]);
+	if (load_scene) {
 		// まずLoading画面に即座に切り替え
 		ChangeSceneImmediate(SceneType.kLoad);
 
 		// 非同期で目的のシーンの読み込みを開始
-		loadScene->startAsyncLoad(tag);
+		load_scene->StartAsyncLoad(tag);
 	}
 	else {
 		// LoadSceneが利用できない場合は従来通り即座に切り替え

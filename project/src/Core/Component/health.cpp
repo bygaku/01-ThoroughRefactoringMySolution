@@ -1,43 +1,43 @@
 #include "DxLib.h"
 #include "Core/Component/health.hpp"
 
-void Health::initialize() noexcept
+void Health::Initialize() noexcept
 {
 }
 
-void Health::setMaxHealth(uint32_t maxHealth)
+void Health::SetMaxHealth(uint32_t max_health)
 {
-	maxHealth_	   = maxHealth; 
-	currentHealth_ = std::min(currentHealth_, maxHealth_);
+	max_health_	    = max_health; 
+	current_health_ = std::min(current_health_, max_health_);
 }
 
-void Health::setInvincibilityTime(const float& time)
+void Health::SetInvincibilityTime(const float& time)
 {
-	invincibilityTime_ = time;
+	invincibility_time_ = time;
 }
 
-void Health::registerOnHealthChanged(const HEALTH_CHANGED_CALLBACK& healthChangedProcess)
+void Health::RegisterOnHealthChanged(const HEALTH_CHANGED_CALLBACK& health_changed_process)
 {
-	onHealthChanged_ = healthChangedProcess;
+	on_health_changed_ = health_changed_process;
 }
 
-void Health::registerOnDeath(const DEATH_ACTION_CALLBACK& deathProcess)
+void Health::RegisterOnDeath(const DEATH_ACTION_CALLBACK& death_process)
 {
-	onDeath_ = deathProcess;
+	on_death_ = death_process;
 }
 
-void Health::takeDamage(uint32_t amount) noexcept
+void Health::TakeDamage(uint32_t amount) noexcept
 {
 	printfDx("\nDamage");
 }
 
-void Health::takeHeal(uint32_t amount) noexcept
+void Health::TakeHeal(uint32_t amount) noexcept
 {
 	printfDx("\nHeal");
 }
 
-void Health::reset() noexcept
+void Health::Reset() noexcept
 {
-	currentHealth_ = maxHealth_; 
-	isAlive_	   = true;
+	current_health_ = max_health_; 
+	is_alive_	    = true;
 }

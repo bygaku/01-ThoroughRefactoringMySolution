@@ -27,7 +27,11 @@
     <ClCompile Include="src\Core\GameTime\game_time.cpp" />
     <ClCompile Include="src\Core\Input\input_manager.cpp" />
     <ClCompile Include="src\Core\SceneManager\scene_manager.cpp" />
+    <ClCompile Include="src\Core\Scene\load.cpp" />
+    <ClCompile Include="src\Core\Scene\result.cpp" />
     <ClCompile Include="src\Core\Scene\scene.cpp" />
+    <ClCompile Include="src\Core\Scene\stage.cpp" />
+    <ClCompile Include="src\Core\Scene\title.cpp" />
     <ClCompile Include="src\Object\game_object.cpp" />
     <ClCompile Include="src\system\main.cpp" />
     <ClCompile Include="src\system\system.cpp" />
@@ -45,7 +49,11 @@
     <ClInclude Include="src\Core\Input\input_manager.hpp" />
     <ClInclude Include="src\Core\SceneManager\scene_manager.hpp" />
     <ClInclude Include="src\Core\Scene\Data\scene_type.hpp" />
+    <ClInclude Include="src\Core\Scene\load.hpp" />
+    <ClInclude Include="src\Core\Scene\result.hpp" />
     <ClInclude Include="src\Core\Scene\scene.hpp" />
+    <ClInclude Include="src\Core\Scene\stage.hpp" />
+    <ClInclude Include="src\Core\Scene\title.hpp" />
     <ClInclude Include="src\Object\Data\object_tag.hpp" />
     <ClInclude Include="src\Object\game_object.hpp" />
     <ClInclude Include="src\system\system.hpp" />

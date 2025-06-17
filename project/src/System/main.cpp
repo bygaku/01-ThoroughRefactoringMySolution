@@ -19,7 +19,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
     /// TODO: ADX2‚Ì‰Šú‰»‚ÆÚ‘±
 
     /// @remark MAIN
-    InputManager::create();
+    InputManager::Create();
     auto game_manager = std::make_unique<GameManager>();
 
     while (game_manager->IsRunning()) {
@@ -27,7 +27,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
         game_manager->Update();
     }
 
-    InputManager::destroy();
+    InputManager::Destroy();
 
     return 0;
 }

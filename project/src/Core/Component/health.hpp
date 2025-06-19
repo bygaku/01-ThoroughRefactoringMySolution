@@ -10,9 +10,9 @@ public:
 	Health() = delete;
 	Health(GameObject& owner, uint32_t max_health) noexcept;
 
-	~Health()		  noexcept = default;
+	~Health()		  noexcept override;
 
-	void Initialize() noexcept  override;
+	void Initialize() noexcept override;
 
 #pragma region 体力アクセサ
 	/// @remark 命名

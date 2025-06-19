@@ -9,7 +9,7 @@ public:
     Modeler() = delete;
     Modeler(GameObject& owner) noexcept;
 
-    ~Modeler()        noexcept;
+    ~Modeler()        noexcept override;
 
     void Initialize() noexcept override;
     void Draw() const noexcept;

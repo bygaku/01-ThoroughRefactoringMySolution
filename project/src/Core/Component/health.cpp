@@ -10,7 +10,11 @@ Health::Health(GameObject& owner, uint32_t max_health) noexcept
 	, invincibility_time_(0.0f)
 	, invincibility_timer_(0.0f)
 {
-};
+}
+
+Health::~Health() noexcept
+{
+}
 
 void Health::Initialize() noexcept
 {

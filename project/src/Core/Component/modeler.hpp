@@ -7,24 +7,20 @@ class Modeler final : public Component
 {
 public:
     Modeler() = delete;
-    Modeler(GameObject& owner) noexcept
-        : Component{ owner }
-        , model_handle_(-1)
-    {
-    };
+    Modeler(GameObject& owner) noexcept;
 
-    ~Modeler() noexcept;
+    ~Modeler()        noexcept;
 
-    void Initialize() noexcept	override;
-    void Draw()		  const		noexcept;
+    void Initialize() noexcept override;
+    void Draw() const noexcept;
 
-    /// @remark ハンドル操作
-    int	 GetModelHandle() const noexcept { return model_handle_; }
+    /// @remark モデルハンドル操作
+    int	 GetModelHandle() const                 noexcept;
     void SetModelHandle(std::string model_path) noexcept;
-    void ResetModelHandle()     noexcept;
+    void ResetModelHandle()                     noexcept;
 
     /// @brief 行列
-    void SetMatrix(MATRIX mat)  noexcept;
+    void SetMatrix(MATRIX mat)                  noexcept;
 
 private:
     int model_handle_;

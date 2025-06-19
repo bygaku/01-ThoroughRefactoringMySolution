@@ -1,6 +1,12 @@
 #include "DxLib.h"
 #include "Core/Component/modeler.hpp"
 
+Modeler::Modeler(GameObject& owner) noexcept
+	: Component{ owner }
+	, model_handle_(-1)
+{
+};
+
 Modeler::~Modeler() noexcept
 {
 	if (!model_handle_) return;
@@ -15,6 +21,11 @@ void Modeler::Draw() const noexcept
 {
 	if (!model_handle_) return;
 	MV1DrawModel(model_handle_);
+}
+
+int Modeler::GetModelHandle() const noexcept
+{
+	return model_handle_;
 }
 
 void Modeler::SetModelHandle(std::string model_path) noexcept

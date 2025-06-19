@@ -7,7 +7,7 @@
 #include "Core/Input/Data/input_data.hpp"
 #include "Utility/Math/math.hpp"
 
-class InputManager 
+class InputManager final
 {
 public:
     static InputManager& GetInstance() noexcept;

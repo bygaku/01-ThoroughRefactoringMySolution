@@ -4,11 +4,8 @@
 class ResultScene final : public Scene
 {
 public:
-	ResultScene(SceneManager& manager) noexcept
-		: Scene(SceneType.kResult, manager)
-	{
-	};
+	ResultScene(SceneManager& manager) noexcept;
 
 	/// @brief シーンの状態を確認
-	void CheckSceneState()	 noexcept override {};
+	void CheckSceneState() noexcept override;
 };

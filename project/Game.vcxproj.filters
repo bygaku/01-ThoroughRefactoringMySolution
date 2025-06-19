@@ -22,12 +22,6 @@
     <Filter Include="src\Utility\Math">
       <UniqueIdentifier>{3b840bfc-7873-48d8-9596-cd01d8232377}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Object">
-      <UniqueIdentifier>{3d76db9e-280a-4b40-a0f7-64844b8c0df3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Object\Data">
-      <UniqueIdentifier>{7318477a-51ac-411e-8ff3-d3ad3b187206}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Core\GameManager">
       <UniqueIdentifier>{be2c397a-bca2-4ef8-896b-d04f2b1ce845}</UniqueIdentifier>
     </Filter>
@@ -58,6 +52,15 @@
     <Filter Include="src\Core\Scene\Manager">
       <UniqueIdentifier>{0b47222c-fc29-41bf-ab3f-bbe0d480020b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Core\Object">
+      <UniqueIdentifier>{3d76db9e-280a-4b40-a0f7-64844b8c0df3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Object\Data">
+      <UniqueIdentifier>{7318477a-51ac-411e-8ff3-d3ad3b187206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Object\Base">
+      <UniqueIdentifier>{aa2b631d-e95f-4dd6-a864-5ccc9a6c542c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\system\main.cpp">
@@ -71,9 +74,6 @@
     </ClCompile>
     <ClCompile Include="src\Utility\Math\math.cpp">
       <Filter>src\Utility\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Object\game_object.cpp">
-      <Filter>src\Object</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Component\health.cpp">
       <Filter>src\Core\Component</Filter>
@@ -140,11 +140,8 @@
     <ClInclude Include="src\Utility\Math\vector2d.hpp">
       <Filter>src\Utility\Math</Filter>
     </ClInclude>
-    <ClInclude Include="src\Object\game_object.hpp">
-      <Filter>src\Object</Filter>
-    </ClInclude>
     <ClInclude Include="src\Object\Data\object_tag.hpp">
-      <Filter>src\Object\Data</Filter>
+      <Filter>src\Core\Object\Data</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Component\health.hpp">
       <Filter>src\Core\Component</Filter>
@@ -190,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="src\Core\Scene\title.hpp">
       <Filter>src\Core\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\game_object.hpp">
+      <Filter>src\Core\Object\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

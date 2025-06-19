@@ -11,9 +11,9 @@ public:
 		: owner_(object)
 		, is_active_(true)
 	{
-	}
+	};
 
-	virtual		 ~Component() noexcept = default;
+	virtual ~Component()	  noexcept = default;
 
 	virtual void Initialize() noexcept	abstract;
 

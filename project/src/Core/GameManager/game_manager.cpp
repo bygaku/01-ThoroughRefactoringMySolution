@@ -24,7 +24,7 @@ GameManager::~GameManager() noexcept
 
 bool GameManager::IsRunning() const noexcept
 {
-    return !ProcessMessage();
+    return !ProcessMessage() && !InputManager::GetInstance().IsPadButtonPressed(PadButton::Back, 1);
 }
 
 void GameManager::Update() noexcept

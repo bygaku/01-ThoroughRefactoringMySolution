@@ -16,7 +16,7 @@ public:
     {
     };
 
-    virtual ~GameObject() noexcept = default;
+    virtual ~GameObject()     noexcept = default;
 
     virtual void Initialize() noexcept abstract;
     virtual void Update()	  noexcept abstract;

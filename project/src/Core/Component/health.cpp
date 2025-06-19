@@ -1,6 +1,17 @@
 #include "DxLib.h"
 #include "Core/Component/health.hpp"
 
+Health::Health(GameObject& owner, uint32_t max_health) noexcept
+	: Component{ owner }
+	, current_health_(max_health)
+	, max_health_(max_health)
+	, is_alive_(true)
+	, is_invincible_(false)
+	, invincibility_time_(0.0f)
+	, invincibility_timer_(0.0f)
+{
+};
+
 void Health::Initialize() noexcept
 {
 }

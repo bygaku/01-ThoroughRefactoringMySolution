@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "memory"
+#include <memory>
 #include "Utility/utility_link.hpp"
 #include "Core/Scene/title.hpp"
 

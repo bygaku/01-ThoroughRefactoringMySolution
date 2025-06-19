@@ -8,22 +8,13 @@ class Health final : public Component
 {
 public:
 	Health() = delete;
-	explicit Health(GameObject& owner, uint32_t max_health) noexcept
-		: Component{ owner }
-		, current_health_(max_health)
-		, max_health_(max_health)
-		, is_alive_(true)
-		, is_invincible_(false)
-		, invincibility_time_(0.0f)
-		, invincibility_timer_(0.0f)
-	{
-	};
+	Health(GameObject& owner, uint32_t max_health) noexcept;
 
 	~Health()		  noexcept = default;
 
 	void Initialize() noexcept  override;
 
-#pragma region アクセサ
+#pragma region 体力アクセサ
 	/// @remark 命名
 	using HEALTH_CHANGED_CALLBACK = std::function<void(uint32_t current_health, uint32_t prev_health)>;
 	using DEATH_ACTION_CALLBACK	  = std::function<void()>;
@@ -50,7 +41,6 @@ public:
 	void TakeDamage(uint32_t amount) noexcept;
 	void TakeHeal  (uint32_t amount) noexcept;
 	void Reset()					 noexcept;
-
 #pragma endregion
 
 private:

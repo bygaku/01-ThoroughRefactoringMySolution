@@ -7,5 +7,5 @@ public:
 	TitleScene(SceneManager& manager) noexcept;
 
 	/// @brief シーンの状態を確認
-	void CheckSceneState()	 noexcept override;
+	void CheckSceneState() noexcept override;
 };

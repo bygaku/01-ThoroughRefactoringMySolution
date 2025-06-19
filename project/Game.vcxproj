@@ -32,7 +32,6 @@
     <ClCompile Include="src\Core\Scene\scene.cpp" />
     <ClCompile Include="src\Core\Scene\stage.cpp" />
     <ClCompile Include="src\Core\Scene\title.cpp" />
-    <ClCompile Include="src\Object\game_object.cpp" />
     <ClCompile Include="src\system\main.cpp" />
     <ClCompile Include="src\system\system.cpp" />
     <ClCompile Include="src\Utility\assert_dxlib.cpp" />
